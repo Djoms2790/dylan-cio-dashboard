@@ -5,69 +5,79 @@ from datetime import datetime
 
 # 1. AUTH
 GEMINI_KEY = os.getenv('GEMINI_API_KEY')
+if not GEMINI_KEY:
+    print("❌ API Key Missing")
+    exit(1)
+
 genai.configure(api_key=GEMINI_KEY)
 model = genai.GenerativeModel('gemini-1.5-flash')
 
-# 2. THE PRECISE TICKER MAP
-# We use the Yahoo Finance symbols for your specific ETFs
-ticker_map = {
-    "EQCH": "EQCH.SW",   # Invesco Nasdaq 100 (SIX)
-    "SP500S": "SP500S.SW", # UBS S&P 500 (SIX)
-    "IWVD": "IWVD.L",    # iShares World Value (London/SIX)
-    "SMHV": "SMHV.SW",   # VanEck Semiconductors (SIX)
-    "AUUCH": "AUUCH.SW"  # UBS Gold (SIX)
+# 2. TICKER MAPPING (Yahoo Finance Symbols)
+# Ensure these match the markets you want. 
+# EQCH.SW = Invesco Nasdaq (Swiss), SP500S.SW = UBS S&P (Swiss)
+tickers = {
+    "EQCH": "EQCH.SW",
+    "SP500S": "SP500S.SW", 
+    "IWVD": "IWVD.L",    # iShares World Value (London) - Common proxy
+    "SMHV": "SMHV.SW",   
+    "AUUCH": "AUUCH.SW" 
 }
 
-def get_ticker_data(symbol):
+def get_data(symbol):
     try:
-        ticker = yf.Ticker(symbol)
-        hist = ticker.history(period="7d")
-        if hist.empty:
-            return {"price": 0.0, "change": 0.0}
+        t = yf.Ticker(symbol)
+        hist = t.history(period="5d")
+        if hist.empty: return {"price": 0.0, "change": 0.0}
         
-        current_price = hist['Close'].iloc[-1]
-        start_price = hist['Close'].iloc[0]
-        one_week_change = ((current_price - start_price) / start_price) * 100
-        return {"price": round(current_price, 2), "change": round(one_week_change, 2)}
-    except Exception as e:
-        print(f"Error fetching {symbol}: {e}")
+        curr = hist['Close'].iloc[-1]
+        prev = hist['Close'].iloc[0]
+        change = ((curr - prev) / prev) * 100
+        return {"price": round(curr, 2), "change": round(change, 2)}
+    except:
         return {"price": 0.0, "change": 0.0}
 
-# 3. DATA SWEEP
-results = {key: get_ticker_data(val) for key, val in ticker_map.items()}
+# 3. FETCH DATA
+ptf = {k: get_data(v) for k, v in tickers.items()}
 
-# 4. STRATEGIC ANALYSIS
-prompt = f"Portfolio Data (1-week % changes): {results}. Act as Dylan CIO. Write 3 short paragraphs: Title, Summary, and Commentary."
+# 4. AI ANALYSIS
+prompt = f"""
+Act as Dylan CIO. Portfolio Data: {ptf}.
+Write 5 distinct parts separated by '|':
+1. Short Title (e.g. Bullish Trend)
+2. Executive Summary (2 sentences)
+3. Status (e.g. Defensive)
+4. Market Commentary (2 sentences)
+5. Algo Logic (1 sentence)
+"""
 try:
-    ai_out = model.generate_content(prompt).text.strip().split('\n')
-    ai_out = [line.strip() for line in ai_out if line.strip()]
+    ai_raw = model.generate_content(prompt).text.strip().split('|')
+    ai_out = [x.strip() for x in ai_raw]
+    # Fallback if split fails
+    if len(ai_out) < 5: ai_out = ["Update", "Data synced.", "Neutral", "Check levels.", "Hold."]
 except:
-    ai_out = ["Market Update", "Data synchronized.", "Monitoring levels."]
+    ai_out = ["System Update", "Prices refreshed.", "Active", "Monitoring volatility.", "Standard rebalance check."]
 
-# 5. TEMPLATE REPLACEMENT (100% Match to your HTML)
+# 5. UPDATE HTML
 with open('index.html', 'r', encoding='utf-8') as f:
     html = f.read()
 
 reps = {
-    "{{ DATE }}": datetime.now().strftime("%A, %b %d, %Y"),
-    "{{ REGIME_TITLE }}": ai_out[0] if len(ai_out) > 0 else "Portfolio Sync",
-    "{{ EXECUTIVE_SUMMARY }}": ai_out[1] if len(ai_out) > 1 else "Prices updated.",
-    "{{ CIO_MARKET_COMMENTARY }}": ai_out[2] if len(ai_out) > 2 else "System check.",
-    "{{ PTF_STATUS }}": "Barbell Strategy Active",
-    "{{ ALGO_REASONING }}": "Volatility within expected Swiss mandate parameters.",
-    "{{ ORDER_TICKETS }}": "<div class='bg-emerald-900/40 p-3 rounded text-xs'>HOLD: Asset weights within 5% drift threshold.</div>",
-    
-    # Matching your HTML Price and Change placeholders
-    "{{ NASDAQ_PRICE }}": str(results["EQCH"]["price"]),
-    "{{ NASDAQ_CHANGE }}": str(results["EQCH"]["change"]),
-    "{{ SP500_PRICE }}": str(results["SP500S"]["price"]),
-    "{{ SP500_CHANGE }}": str(results["SP500S"]["change"]),
-    "{{ VALUE_PRICE }}": str(results["IWVD"]["price"]),
-    "{{ VALUE_CHANGE }}": str(results["IWVD"]["change"]),
-    "{{ SEMI_PRICE }}": str(results["SMHV"]["price"]),
-    "{{ SEMI_CHANGE }}": str(results["SMHV"]["change"]),
-    "{{ GOLD_PRICE }}": str(results["AUUCH"]["price"]),
-    "{{ GOLD_CHANGE }}": str(results["AUUCH"]["change"])
+    "{{ DATE }}": datetime.now().strftime("%b %d, %Y"),
+    "{{ NASDAQ_PRICE }}": str(ptf["EQCH"]["price"]),
+    "{{ NASDAQ_CHANGE }}": str(ptf["EQCH"]["change"]),
+    "{{ SP500_PRICE }}": str(ptf["SP500S"]["price"]),
+    "{{ SP500_CHANGE }}": str(ptf["SP500S"]["change"]),
+    "{{ VALUE_PRICE }}": str(ptf["IWVD"]["price"]),
+    "{{ VALUE_CHANGE }}": str(ptf["IWVD"]["change"]),
+    "{{ SEMI_PRICE }}": str(ptf["SMHV"]["price"]),
+    "{{ SEMI_CHANGE }}": str(ptf["SMHV"]["change"]),
+    "{{ GOLD_PRICE }}": str(ptf["AUUCH"]["price"]),
+    "{{ GOLD_CHANGE }}": str(ptf["AUUCH"]["change"]),
+    "{{ REGIME_TITLE }}": ai_out[0],
+    "{{ EXECUTIVE_SUMMARY }}": ai_out[1],
+    "{{ PTF_STATUS }}": ai_out[2],
+    "{{ CIO_MARKET_COMMENTARY }}": ai_out[3],
+    "{{ ALGO_REASONING }}": ai_out[4]
 }
 
 for k, v in reps.items():
@@ -76,4 +86,4 @@ for k, v in reps.items():
 with open('index.html', 'w', encoding='utf-8') as f:
     f.write(html)
 
-print("✅ Dashboard fully synchronized with SIX Swiss Exchange data.")
+print("✅ Update Success")
