@@ -224,7 +224,7 @@
 
         // --- INJECTED DATA FROM PYTHON ---
         // This object is fully populated by the Automation Script
-        const reportData = {{ REPORT_DATA_JSON }};
+        const reportData = {"meta": {"regime": "Update Failed"}, "assets": [{"id": "EQCH", "name": "Nasdaq 100", "color": "#ef4444", "price": 396.45, "change_1w": -0.69, "change_ytd": -3.62, "change_1y": 8.54}, {"id": "SP500S", "name": "S&P 500", "color": "#f87171", "price": 6.16, "change_1w": -0.64, "change_ytd": -1.14, "change_1y": 9.45}, {"id": "IWVL", "name": "World Value", "color": "#10b981", "price": 66.58, "change_1w": 1.09, "change_ytd": 9.74, "change_1y": 46.04}, {"id": "SMHV", "name": "Semiconductors", "color": "#fbbf24", "price": 55.34, "change_1w": 2.94, "change_ytd": 5.45, "change_1y": 42.83}, {"id": "AUCHAH", "name": "Gold Hedged", "color": "#f59e0b", "price": 165.14, "change_1w": 1.49, "change_ytd": 11.87, "change_1y": 62.38}]};
 
         // --- LOCAL USER STATE ---
         let userHoldings = {
