@@ -53,16 +53,16 @@
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="col-span-1 md:col-span-2 bg-white rounded-xl p-8 shadow-sm border-l-4 border-slate-800">
                 <p class="text-sm font-bold text-slate-500 uppercase mb-1">Weekly Snapshot</p>
-                <h1 class="text-3xl font-bold text-slate-900 mb-2">{{ REGIME_TITLE }}</h1>
+                <h1 class="text-3xl font-bold text-slate-900 mb-2">Market Update</h1>
                 <p class="text-slate-600 leading-relaxed">
-                    Date: <span class="font-semibold text-slate-800">{{ DATE }}</span><br>
-                    {{ EXECUTIVE_SUMMARY }}
+                    Date: <span class="font-semibold text-slate-800">Saturday, Feb 14, 2026</span><br>
+                    Stability remains focus.
                 </p>
             </div>
             <div class="col-span-1 bg-slate-100 rounded-xl p-6 flex flex-col justify-center items-center text-center border border-slate-200">
                 <span class="text-2xl mb-2">🛡️</span>
                 <h2 class="text-lg font-bold text-slate-800">Portfolio Status</h2>
-                <div class="mt-2 px-4 py-1 bg-white border border-slate-300 rounded-full text-sm font-bold text-slate-700 shadow-sm">{{ PTF_STATUS }}</div>
+                <div class="mt-2 px-4 py-1 bg-white border border-slate-300 rounded-full text-sm font-bold text-slate-700 shadow-sm">Barbell Strategy Active</div>
             </div>
         </section>
 
@@ -114,7 +114,7 @@
                 </div>
                 <div class="lg:col-span-1 bg-slate-50 rounded-xl p-6 border border-slate-100 flex flex-col justify-center">
                     <h3 class="text-sm font-bold text-slate-400 uppercase mb-4">CIO Analysis</h3>
-                    <div class="prose prose-sm text-slate-600 italic">"{{ CIO_MARKET_COMMENTARY }}"</div>
+                    <div class="prose prose-sm text-slate-600 italic">"Monitor key levels."</div>
                 </div>
             </div>
         </section>
@@ -123,10 +123,10 @@
             <h2 class="text-2xl font-bold mb-6">📝 Monday Morning Orders</h2>
             <div class="bg-slate-900 text-white rounded-2xl p-8 shadow-xl">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div id="order-list" class="space-y-4">{{ ORDER_TICKETS }}</div>
+                    <div id="order-list" class="space-y-4"><div class='bg-emerald-900/40 p-3 rounded text-xs'>HOLD: No rebalance required this cycle.</div></div>
                     <div class="border-l border-slate-700 pl-8">
                         <p class="text-xs text-slate-500 uppercase font-bold mb-2">Algo Verdict</p>
-                        <p class="text-slate-300 italic">"{{ ALGO_REASONING }}"</p>
+                        <p class="text-slate-300 italic">"System remains within risk parameters."</p>
                     </div>
                 </div>
             </div>
@@ -143,11 +143,11 @@
     <script>
         const reportData = {
             assets: [
-                { id: "EQCH", name: "Nasdaq 100", price: {{ NASDAQ_PRICE }}, change: {{ NASDAQ_CHANGE }}, color: '#ef4444' },
-                { id: "SP500S", name: "S&P 500", price: {{ SP500_PRICE }}, change: {{ SP500_CHANGE }}, color: '#f87171' },
-                { id: "IWVD", name: "World Value", price: {{ VALUE_PRICE }}, change: {{ VALUE_CHANGE }}, color: '#10b981' },
-                { id: "SMHV", name: "Semis", price: {{ SEMI_PRICE }}, change: {{ SEMI_CHANGE }}, color: '#fbbf24' },
-                { id: "AUUCH", name: "Gold", price: {{ GOLD_PRICE }}, change: {{ GOLD_CHANGE }}, color: '#f59e0b' }
+                { id: "EQCH", name: "Nasdaq 100", price: 601.92, change: 0.2131, color: '#ef4444' },
+                { id: "SP500S", name: "S&P 500", price: 0.0, change: 0.0, color: '#f87171' },
+                { id: "IWVD", name: "World Value", price: 0.0, change: 0.0, color: '#10b981' },
+                { id: "SMHV", name: "Semis", price: 0.0, change: 0.0, color: '#fbbf24' },
+                { id: "AUUCH", name: "Gold", price: 0.0, change: 0.0, color: '#f59e0b' }
             ]
         };
 
