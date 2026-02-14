@@ -19,9 +19,12 @@
         .status-dot { height: 12px; width: 12px; border-radius: 50%; display: inline-block; }
         .pulse { animation: pulse-animation 2s infinite; }
         @keyframes pulse-animation { 0% { box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.1); } 100% { box-shadow: 0 0 0 10px rgba(0, 0, 0, 0); } }
+        .card-hover:hover { transform: translateY(-2px); transition: all 0.2s ease; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); }
         .tab-active { border-bottom: 2px solid #0f172a; color: #0f172a; font-weight: 600; }
         .tab-inactive { border-bottom: 2px solid transparent; color: #64748b; }
+        .tab-inactive:hover { color: #334155; border-bottom: 2px solid #cbd5e1; }
         .share-input { background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 0.375rem; padding: 0.25rem 0.5rem; width: 80px; text-align: right; font-family: 'JetBrains Mono', monospace; transition: all 0.2s; }
+        .share-input:focus { outline: none; border-color: #94a3b8; background-color: #fff; box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.2); }
     </style>
 </head>
 <body class="antialiased min-h-screen">
@@ -32,11 +35,19 @@
                 <span class="text-2xl">🇨🇭</span>
                 <div class="flex flex-col">
                     <span class="font-bold text-lg tracking-tight">DYLAN CIO</span>
-                    <span class="text-xs text-slate-400 mono">GENEVA // LIVE_V2</span>
+                    <span class="text-xs text-slate-400 mono">GENEVA // AUTOMATED</span>
                 </div>
             </div>
-            <div class="flex items-center bg-slate-800 px-3 py-1 rounded-full border border-slate-700">
-                <img src="https://github.com/djoms2790/dylan-cio-dashboard/actions/workflows/monday_update.yml/badge.svg" class="h-4">
+            <div class="flex items-center space-x-4">
+                <div class="hidden md:flex space-x-6 text-sm font-medium text-slate-300">
+                    <a href="#mydesk" class="hover:text-white transition-colors">My Desk</a>
+                    <a href="#macro" class="hover:text-white transition-colors">Macro</a>
+                    <a href="#performance" class="hover:text-white transition-colors">Performance</a>
+                </div>
+                <div class="flex items-center bg-slate-800 px-3 py-1 rounded-full border border-slate-700">
+                    <span class="text-[10px] text-slate-500 uppercase font-bold mr-2">System</span>
+                    <img src="https://github.com/djoms2790/dylan-cio-dashboard/actions/workflows/monday_update.yml/badge.svg" alt="Status" class="h-4">
+                </div>
             </div>
         </div>
     </header>
@@ -45,28 +56,28 @@
 
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="col-span-1 md:col-span-2 bg-white rounded-xl p-8 shadow-sm border-l-4 border-slate-800">
-                <p class="text-sm font-bold text-slate-500 uppercase mb-1">Weekly Snapshot</p>
-                <h1 class="text-3xl font-bold text-slate-900 mb-2">Market Update</h1>
+                <p class="text-sm font-bold text-slate-500 uppercase tracking-wide mb-1">Weekly Snapshot</p>
+                <h1 class="text-3xl font-bold text-slate-900 mb-2">{{ REGIME_TITLE }}</h1>
                 <p class="text-slate-600 leading-relaxed">
-                    Date: <span class="font-semibold text-slate-800">Saturday, Feb 14, 2026</span><br>
-                    Data synchronized.
+                    Date: <span class="font-semibold text-slate-800">{{ DATE }}</span><br>
+                    {{ EXECUTIVE_SUMMARY }}
                 </p>
             </div>
             <div class="col-span-1 bg-slate-100 rounded-xl p-6 flex flex-col justify-center items-center text-center border border-slate-200">
-                <div class="mb-3"><span class="h-12 w-12 rounded-full bg-emerald-100 text-emerald-600 text-2xl p-2">🛡️</span></div>
+                <div class="mb-3"><span class="inline-flex items-center justify-center h-12 w-12 rounded-full bg-emerald-100 text-emerald-600 text-2xl">🛡️</span></div>
                 <h2 class="text-lg font-bold text-slate-800">Portfolio Status</h2>
-                <div class="mt-2 px-4 py-1 bg-white border border-slate-300 rounded-full text-sm font-bold text-slate-700 shadow-sm">Barbell Strategy Active</div>
+                <div class="mt-2 px-4 py-1 bg-white border border-slate-300 rounded-full text-sm font-bold text-slate-700 shadow-sm">{{ PTF_STATUS }}</div>
             </div>
         </section>
 
         <section id="mydesk" class="scroll-mt-20">
             <div class="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
                 <div class="px-6 py-4 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
-                    <h2 class="text-xl font-bold text-slate-800">💼 My Desk</h2>
+                    <h2 class="text-xl font-bold text-slate-800 flex items-center"><span class="mr-2">💼</span> My Desk</h2>
                     <div class="flex space-x-6 text-sm">
-                        <button onclick="switchTab('holdings')" id="tab-holdings" class="tab-active pb-2">Current Holdings</button>
-                        <button onclick="switchTab('ledger')" id="tab-ledger" class="tab-inactive pb-2">Ledger</button>
-                        <button onclick="switchTab('pnl')" id="tab-pnl" class="tab-inactive pb-2">My Performance</button>
+                        <button onclick="switchTab('holdings')" id="tab-holdings" class="tab-active pb-2 transition-colors">Current Holdings</button>
+                        <button onclick="switchTab('ledger')" id="tab-ledger" class="tab-inactive pb-2 transition-colors">Ledger</button>
+                        <button onclick="switchTab('pnl')" id="tab-pnl" class="tab-inactive pb-2 transition-colors">My Performance</button>
                     </div>
                 </div>
                 <div class="p-6 min-h-[400px]">
@@ -74,20 +85,35 @@
                         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                             <div class="lg:col-span-2 overflow-x-auto">
                                 <table class="w-full text-sm text-left">
-                                    <thead class="text-xs text-slate-500 uppercase bg-slate-50 border-b">
+                                    <thead class="text-xs text-slate-500 uppercase bg-slate-50 border-b border-slate-100">
                                         <tr><th class="px-4 py-3">Asset</th><th class="px-4 py-3 text-right">Price (CHF)</th><th class="px-4 py-3 text-right">Shares</th><th class="px-4 py-3 text-right">Value</th><th class="px-4 py-3 text-right">Weight</th></tr>
                                     </thead>
                                     <tbody id="holdings-body" class="divide-y divide-slate-100"></tbody>
-                                    <tfoot class="bg-slate-50 font-bold"><tr><td class="px-4 py-3" colspan="3">Total Net Worth</td><td class="px-4 py-3 text-right" id="total-value">CHF 0.00</td><td class="px-4 py-3 text-right">100%</td></tr></tfoot>
+                                    <tfoot class="bg-slate-50 font-bold text-slate-800"><tr><td class="px-4 py-3" colspan="3">Total Net Worth</td><td class="px-4 py-3 text-right" id="total-value">CHF 0.00</td><td class="px-4 py-3 text-right">100%</td></tr></tfoot>
                                 </table>
+                                <p class="text-xs text-slate-400 mt-4 italic">* Prices sourced via Yahoo Finance (SIX Exchange).</p>
                             </div>
-                            <div class="lg:col-span-1 flex flex-col items-center justify-center bg-slate-50 rounded-xl p-4">
+                            <div class="lg:col-span-1 flex flex-col items-center justify-center bg-slate-50 rounded-xl border border-slate-100 p-4">
                                 <h4 class="text-xs font-bold text-slate-500 uppercase mb-4">Actual Allocation</h4>
                                 <div class="chart-container-small"><canvas id="holdingsPieChart"></canvas></div>
                             </div>
                         </div>
                     </div>
-                    <div id="view-ledger" class="hidden"><div id="ledger-empty" class="text-center py-12 text-slate-400">Ledger data synchronized with Monday updates.</div></div>
+                    <div id="view-ledger" class="hidden">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-sm font-bold text-slate-500 uppercase">Transaction History</h3>
+                            <button class="text-xs bg-slate-100 hover:bg-slate-200 px-3 py-1 rounded text-slate-600 transition" onclick="alert('Export to CSV coming soon.')">Download CSV</button>
+                        </div>
+                        <div class="overflow-hidden rounded-lg border border-slate-200">
+                            <table class="w-full text-sm text-left">
+                                <thead class="bg-slate-50 text-xs text-slate-500 uppercase">
+                                    <tr><th class="px-6 py-3">Date</th><th class="px-6 py-3">Type</th><th class="px-6 py-3">Asset</th><th class="px-6 py-3 text-right">Qty</th><th class="px-6 py-3 text-right">Price</th><th class="px-6 py-3 text-right">Total</th></tr>
+                                </thead>
+                                <tbody id="ledger-body" class="divide-y divide-slate-100 bg-white"></tbody>
+                            </table>
+                        </div>
+                        <div id="ledger-empty" class="text-center py-12 text-slate-400 text-sm hidden">No transactions recorded yet. Execute orders below.</div>
+                    </div>
                     <div id="view-pnl" class="hidden">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                             <div class="bg-slate-50 rounded-xl p-6 border border-slate-100">
@@ -95,95 +121,281 @@
                                 <div class="text-4xl font-bold mono" id="total-pnl">CHF 0.00</div>
                                 <div class="text-sm font-medium mt-2" id="pnl-percent">0.00%</div>
                             </div>
-                            <div class="h-64"><canvas id="pnlBarChart"></canvas></div>
+                            <div class="h-64"><div class="chart-container-small"><canvas id="pnlBarChart"></canvas></div></div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="performance" class="bg-white rounded-2xl shadow-sm border p-8">
-            <h2 class="text-2xl font-bold mb-8">📊 Market Performance</h2>
+        <section id="macro" class="scroll-mt-20">
+            <h2 class="text-2xl font-bold text-slate-900 flex items-center mb-6"><span class="mr-2">🧭</span> The Macro Dashboard</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4" id="macro-grid"></div>
+        </section>
+
+        <section id="performance" class="scroll-mt-20 bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+            <h2 class="text-2xl font-bold text-slate-900 flex items-center mb-8"><span class="mr-2">📊</span> Market Performance</h2>
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div class="lg:col-span-2"><div class="chart-container"><canvas id="performanceChart"></canvas></div></div>
-                <div class="lg:col-span-1 bg-slate-50 rounded-xl p-6 border border-slate-100 flex flex-col justify-center">
-                    <h3 class="text-sm font-bold text-slate-400 uppercase mb-4">Asset Analysis</h3>
-                    <div id="commentary-display" class="text-slate-600 text-sm italic">"Monitoring levels."</div>
+                <div class="lg:col-span-1 bg-slate-50 rounded-xl p-6 border border-slate-100 h-full flex flex-col">
+                    <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">Asset Analysis</h3>
+                    <div id="commentary-display" class="flex-grow flex flex-col justify-center transition-all duration-300">
+                        <div class="prose prose-sm text-slate-600 italic">"{{ CIO_MARKET_COMMENTARY }}"</div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section id="orders" class="pb-16">
-            <h2 class="text-2xl font-bold mb-6">📝 Monday Morning Orders</h2>
-            <div class="bg-slate-900 text-white rounded-2xl p-8 shadow-xl">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div id="order-list" class="space-y-4"><div class='bg-emerald-900/40 p-3 rounded text-xs'>HOLD: Asset weights within 5% drift threshold.</div></div>
-                    <div class="border-l border-slate-700 pl-8">
-                        <p class="text-xs text-slate-500 uppercase font-bold mb-2">Algorithm logic</p>
-                        <p class="text-sm text-slate-300 italic">"Volatility within expected Swiss mandate parameters."</p>
+        <section id="orders" class="scroll-mt-20 pb-16">
+            <div class="mb-6"><h2 class="text-2xl font-bold text-slate-900 flex items-center"><span class="mr-2">📝</span> Monday Morning Orders</h2></div>
+            <div class="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-3">
+                    <div class="col-span-2 p-6 md:p-8">
+                        <h3 class="text-lg font-bold text-slate-800 mb-4">Execution Ticket: {{ DATE }}</h3>
+                        <div class="space-y-4" id="order-list"></div>
+                        <div class="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between">
+                            <div class="text-xs text-slate-400">Status: <span class="font-bold text-orange-500" id="execution-status">PENDING APPROVAL</span></div>
+                            <button id="execute-btn" class="bg-slate-900 hover:bg-slate-800 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-transform active:scale-95 flex items-center">
+                                <span>Execute & Log</span><span class="ml-2 text-xs opacity-70 mono">→</span>
+                            </button>
+                        </div>
+                        <div id="execution-msg" class="mt-2 text-xs text-emerald-600 font-bold hidden">Trades logged to your Ledger and Holdings updated.</div>
+                    </div>
+                    <div class="col-span-1 bg-slate-50 p-6 border-l border-slate-100 flex flex-col items-center justify-center">
+                        <h4 class="text-sm font-bold text-slate-500 mb-4 text-center">Rebalance Visualization</h4>
+                        <div class="chart-container-small"><canvas id="rebalanceChart"></canvas></div>
+                        <p class="text-xs text-slate-400 mt-4 text-center italic">"{{ ALGO_REASONING }}"</p>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="bg-white border-t border-slate-200 py-8">
+    <footer class="bg-white border-t border-slate-200 mt-12 py-8">
         <div class="max-w-7xl mx-auto px-4 text-center">
-            <p class="text-slate-400 text-xs">Dylan CIO System &copy; 2026. Geneva, CH.</p>
-            <p id="last-updated" class="text-[10px] text-slate-300 mt-2 font-mono uppercase tracking-widest italic">Checking Sync...</p>
+            <p class="text-slate-400 text-sm">Dylan CIO System &copy; 2026. Geneva, CH.</p>
+            <p id="last-updated" class="text-[10px] text-slate-300 mt-2 font-mono italic">Syncing with GitHub...</p>
         </div>
     </footer>
 
     <script>
+        // --- DATA STORE (POPULATED BY PYTHON) ---
         const reportData = {
+            macro: [
+                { name: "US CPI", value: "2.4%", trend: "Cooling ↘️", impact: "Bullish", desc: "Fed has room to cut rates." },
+                { name: "USD/CHF", value: "0.88", trend: "Stable ➡️", impact: "Neutral", desc: "Holding above 0.85 floor." },
+                { name: "VIX", value: "18.5", trend: "Normal ➡️", impact: "Safe", desc: "Volatility within range.", highlight: false }
+            ],
             assets: [
-                { id: "EQCH", name: "Nasdaq 100", price: 396.45, change: 0.2, color: '#ef4444' },
-                { id: "SP500S", name: "S&P 500", price: 6.16, change: 0.41, color: '#f87171' },
-                { id: "IWVD", name: "World Value", price: 0.0, change: 0.0, color: '#10b981' },
-                { id: "SMHV", name: "Semis", price: 55.34, change: 5.77, color: '#fbbf24' },
-                { id: "AUUCH", name: "Gold", price: 0.0, change: 0.0, color: '#f59e0b' }
+                { id: "EQCH", name: "Nasdaq 100", price: {{ NASDAQ_PRICE }}, change: {{ NASDAQ_CHANGE }}, color: '#ef4444' },
+                { id: "SP500S", name: "S&P 500", price: {{ SP500_PRICE }}, change: {{ SP500_CHANGE }}, color: '#f87171' },
+                { id: "IWVD", name: "World Value", price: {{ VALUE_PRICE }}, change: {{ VALUE_CHANGE }}, color: '#10b981' },
+                { id: "SMHV", name: "Semiconductors", price: {{ SEMI_PRICE }}, change: {{ SEMI_CHANGE }}, color: '#fbbf24' },
+                { id: "AUUCH", name: "Gold", price: {{ GOLD_PRICE }}, change: {{ GOLD_CHANGE }}, color: '#f59e0b' }
+            ],
+            orders: [
+                { action: "HOLD", assetId: "EQCH", asset: "Nasdaq 100", shares: 0, amt: "—", reason: "Allocation within limits." },
+                { action: "HOLD", assetId: "SP500S", asset: "S&P 500", shares: 0, amt: "—", reason: "Maintain core exposure." }
             ]
         };
 
+        // --- USER STATE (Persisted in browser or simplified here) ---
         let userHoldings = { "EQCH": 150, "SP500S": 80, "IWVD": 200, "SMHV": 60, "AUUCH": 10 };
+        let ledger = [];
 
-        function switchTab(t) {
-            document.getElementById('view-holdings').className = t==='holdings'?'block':'hidden';
-            document.getElementById('view-ledger').className = t==='ledger'?'block':'hidden';
-            document.getElementById('view-pnl').className = t==='pnl'?'block':'hidden';
-            document.getElementById('tab-holdings').className = t==='holdings'?'tab-active pb-2':'tab-inactive pb-2';
-            document.getElementById('tab-ledger').className = t==='ledger'?'tab-active pb-2':'tab-inactive pb-2';
-            document.getElementById('tab-pnl').className = t==='pnl'?'tab-active pb-2':'tab-inactive pb-2';
-        }
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            initMacroGrid();
+            initPerformanceChart();
+            initOrders();
+            initRebalanceChart();
+            renderHoldingsTable();
+            renderLedger();
+            initHoldingsPie();
+            initPnLChart();
+            getLatestUpdate();
+        });
 
-        function renderDashboard() {
-            const tbody = document.getElementById('holdings-body');
-            let totalVal = 0; let weeklyPnL = 0;
-            tbody.innerHTML = "";
-            reportData.assets.forEach(a => {
-                const qty = userHoldings[a.id];
-                const val = qty * a.price;
-                const gain = val * (a.change / 100);
-                totalVal += val; weeklyPnL += gain;
-                tbody.innerHTML += `<tr class="border-b border-slate-50"><td class="px-4 py-3 font-medium">${a.name}</td><td class="px-4 py-3 text-right">${a.price.toFixed(2)}</td><td class="px-4 py-3 text-right">${qty}</td><td class="px-4 py-3 text-right font-mono">CHF ${val.toLocaleString()}</td><td class="px-4 py-3 text-right text-slate-400">${((val/totalVal)*100).toFixed(1)}%</td></tr>`;
+        // --- TABS ---
+        window.switchTab = function(tabName) {
+            ['holdings', 'ledger', 'pnl'].forEach(t => {
+                document.getElementById(`view-${t}`).classList.add('hidden');
+                document.getElementById(`tab-${t}`).className = "tab-inactive pb-2 transition-colors";
             });
-            document.getElementById('total-value').innerText = `CHF ${totalVal.toLocaleString()}`;
-            document.getElementById('total-pnl').innerText = `CHF ${weeklyPnL.toLocaleString()}`;
-            document.getElementById('pnl-percent').innerText = `${(weeklyPnL/totalVal*100).toFixed(2)}% Return`;
-            
-            new Chart(document.getElementById('performanceChart'), { type: 'bar', data: { labels: reportData.assets.map(a=>a.name), datasets: [{ data: reportData.assets.map(a=>a.change), backgroundColor: reportData.assets.map(a=>a.color) }] }, options: { indexAxis: 'y', plugins: { legend: { display: false } } } });
-            new Chart(document.getElementById('holdingsPieChart'), { type: 'doughnut', data: { datasets: [{ data: reportData.assets.map(a=>userHoldings[a.id]*a.price), backgroundColor: reportData.assets.map(a=>a.color) }] }, options: { cutout: '70%' } });
+            document.getElementById(`view-${tabName}`).classList.remove('hidden');
+            document.getElementById(`tab-${tabName}`).className = "tab-active pb-2 transition-colors";
+            if(tabName === 'pnl' && pnlChart) pnlChart.resize();
+            if(tabName === 'holdings' && holdingsChart) holdingsChart.resize();
+        };
+
+        // --- RENDERERS ---
+        let holdingsChart, pnlChart, pieChartInstance;
+
+        function renderHoldingsTable() {
+            const tbody = document.getElementById('holdings-body');
+            tbody.innerHTML = "";
+            let totalVal = 0;
+            reportData.assets.forEach(asset => { totalVal += userHoldings[asset.id] * asset.price; });
+
+            reportData.assets.forEach(asset => {
+                const qty = userHoldings[asset.id];
+                const val = qty * asset.price;
+                const weight = totalVal > 0 ? (val / totalVal) * 100 : 0;
+                tbody.innerHTML += `
+                    <tr class="bg-white border-b border-slate-50">
+                        <td class="px-4 py-3 font-medium text-slate-900">${asset.name}</td>
+                        <td class="px-4 py-3 text-right text-slate-500">${asset.price.toFixed(2)}</td>
+                        <td class="px-4 py-3 text-right"><input type="number" value="${qty}" min="0" class="share-input" onchange="updateHolding('${asset.id}', this.value)"></td>
+                        <td class="px-4 py-3 text-right font-mono text-slate-700">CHF ${val.toLocaleString('en-CH', {maximumFractionDigits: 0})}</td>
+                        <td class="px-4 py-3 text-right text-slate-500">${weight.toFixed(1)}%</td>
+                    </tr>`;
+            });
+            document.getElementById('total-value').innerText = `CHF ${totalVal.toLocaleString('en-CH', {minimumFractionDigits: 2})}`;
+            updateHoldingsPie(totalVal);
+            updatePnL(totalVal);
         }
 
-        async function getSync() {
+        window.updateHolding = function(assetId, newVal) {
+            userHoldings[assetId] = parseInt(newVal) || 0;
+            renderHoldingsTable();
+        };
+
+        function initHoldingsPie() {
+            const ctx = document.getElementById('holdingsPieChart').getContext('2d');
+            holdingsChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: { labels: reportData.assets.map(a => a.name), datasets: [{ data: [], backgroundColor: reportData.assets.map(a => a.color), borderWidth: 0 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, cutout: '65%' }
+            });
+        }
+
+        function updateHoldingsPie(totalVal) {
+            if (!holdingsChart) return;
+            holdingsChart.data.datasets[0].data = reportData.assets.map(asset => {
+                return totalVal > 0 ? ((userHoldings[asset.id] * asset.price) / totalVal) * 100 : 0;
+            });
+            holdingsChart.update();
+        }
+
+        function renderLedger() {
+            const tbody = document.getElementById('ledger-body');
+            const emptyState = document.getElementById('ledger-empty');
+            tbody.innerHTML = "";
+            if (ledger.length === 0) { emptyState.classList.remove('hidden'); return; }
+            emptyState.classList.add('hidden');
+            [...ledger].reverse().forEach(tx => {
+                const typeClass = tx.type === "BUY" ? "text-emerald-600 bg-emerald-50" : (tx.type === "SELL" ? "text-red-600 bg-red-50" : "text-slate-600 bg-slate-50");
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="px-6 py-3 font-mono text-xs text-slate-500">${tx.date}</td>
+                        <td class="px-6 py-3"><span class="px-2 py-1 rounded text-xs font-bold ${typeClass}">${tx.type}</span></td>
+                        <td class="px-6 py-3 font-medium text-slate-700">${tx.asset}</td>
+                        <td class="px-6 py-3 text-right font-mono">${tx.qty}</td>
+                        <td class="px-6 py-3 text-right text-slate-500">${tx.price}</td>
+                        <td class="px-6 py-3 text-right font-mono font-bold text-slate-700">${tx.total}</td>
+                    </tr>`;
+            });
+        }
+
+        function initPnLChart() {
+            const ctx = document.getElementById('pnlBarChart').getContext('2d');
+            pnlChart = new Chart(ctx, {
+                type: 'bar',
+                data: { labels: reportData.assets.map(a => a.name), datasets: [{ label: 'PnL', data: [], backgroundColor: reportData.assets.map(a => a.color), borderRadius: 4 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' } }, x: { grid: { display: false } } } }
+            });
+        }
+
+        function updatePnL(totalVal) {
+            let totalPnL = 0;
+            const pnlData = reportData.assets.map(asset => {
+                const val = userHoldings[asset.id] * asset.price;
+                const gain = val * (asset.change / 100);
+                totalPnL += gain;
+                return gain;
+            });
+            const sign = totalPnL >= 0 ? "+" : "";
+            const color = totalPnL >= 0 ? "text-emerald-500" : "text-red-500";
+            document.getElementById('total-pnl').innerHTML = `<span class="${color}">${sign}CHF ${Math.abs(totalPnL).toLocaleString('en-CH', {maximumFractionDigits: 0})}</span>`;
+            const pct = totalVal > 0 ? (totalPnL / totalVal) * 100 : 0;
+            document.getElementById('pnl-percent').innerHTML = `<span class="${color}">${sign}${pct.toFixed(2)}%</span> Return`;
+            if(pnlChart) { pnlChart.data.datasets[0].data = pnlData; pnlChart.update(); }
+        }
+
+        function initMacroGrid() {
+            const container = document.getElementById('macro-grid');
+            reportData.macro.forEach(item => {
+                const borderColor = item.impact === "Caution" ? "border-yellow-400" : (item.impact === "Bullish" ? "border-emerald-400" : "border-slate-200");
+                container.innerHTML += `
+                    <div class="glass-panel rounded-xl p-5 border-t-4 ${borderColor} card-hover">
+                        <div class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">${item.name}</div>
+                        <div class="text-2xl font-bold text-slate-800 mb-1">${item.value}</div>
+                        <div class="text-sm font-medium text-slate-500 mb-3">${item.trend}</div>
+                    </div>`;
+            });
+        }
+
+        function initPerformanceChart() {
+            const ctx = document.getElementById('performanceChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: { labels: reportData.assets.map(a => a.name), datasets: [{ data: reportData.assets.map(a => a.change), backgroundColor: reportData.assets.map(a => a.color), borderRadius: 6 }] },
+                options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { grid: { color: '#f1f5f9' } }, y: { grid: { display: false } } } }
+            });
+        }
+
+        function initOrders() {
+            const list = document.getElementById('order-list');
+            reportData.orders.forEach(order => {
+                const bg = order.action === "SELL" ? "bg-red-50 border-red-100" : (order.action === "BUY" ? "bg-emerald-50 border-emerald-100" : "bg-slate-50 border-slate-100");
+                const text = order.action === "SELL" ? "text-red-700" : (order.action === "BUY" ? "text-emerald-700" : "text-slate-500");
+                list.innerHTML += `
+                    <div class="flex justify-between p-4 rounded-lg border ${bg} mb-2">
+                        <div class="flex items-center space-x-4">
+                            <span class="font-bold ${text} w-12">${order.action}</span>
+                            <div><span class="font-bold text-slate-800 block">${order.asset}</span><span class="text-xs text-slate-500">${order.reason}</span></div>
+                        </div>
+                        <div class="font-mono font-bold text-slate-700">${order.shares > 0 ? order.shares + ' Shares' : order.amt}</div>
+                    </div>`;
+            });
+            document.getElementById('execute-btn').addEventListener('click', simulateExecution);
+        }
+
+        function initRebalanceChart() {
+            const ctx = document.getElementById('rebalanceChart').getContext('2d');
+            pieChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: { labels: ["Nasdaq", "S&P 500", "Value", "Semis", "Gold"], datasets: [{ data: [30, 25, 25, 15, 10], backgroundColor: ['#ef4444', '#f87171', '#10b981', '#fbbf24', '#f59e0b'], borderWidth: 0 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, cutout: '70%' }
+            });
+        }
+
+        function simulateExecution() {
+            const btn = document.getElementById('execute-btn');
+            const status = document.getElementById('execution-status');
+            const msg = document.getElementById('execution-msg');
+            btn.innerHTML = `<span>Processing...</span>`;
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+            setTimeout(() => {
+                status.innerText = "EXECUTED";
+                status.className = "font-bold text-emerald-500";
+                btn.innerHTML = `<span>Completed</span> <span class="ml-2">✓</span>`;
+                btn.classList.replace('bg-slate-900', 'bg-emerald-600');
+                msg.classList.remove('hidden');
+                
+                // Demo Logic: Add a test transaction
+                ledger.push({ date: "{{ DATE }}", type: "HOLD", asset: "Portfolio Rebalance", qty: "-", price: "-", total: "Confirmed" });
+                renderLedger();
+            }, 800);
+        }
+
+        async function getLatestUpdate() {
             try {
                 const res = await fetch(`https://api.github.com/repos/djoms2790/dylan-cio-dashboard/commits/main`);
                 const data = await res.json();
                 document.getElementById('last-updated').innerText = `Synced: ${new Date(data.commit.author.date).toLocaleString()} (UTC)`;
-            } catch { document.getElementById('last-updated').innerText = "Sync Check Failed"; }
+            } catch { document.getElementById('last-updated').innerText = "Sync Offline"; }
         }
-
-        document.addEventListener('DOMContentLoaded', () => { renderDashboard(); getSync(); });
     </script>
 </body>
 </html>
