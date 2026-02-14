@@ -57,16 +57,16 @@
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="col-span-1 md:col-span-2 bg-white rounded-xl p-8 shadow-sm border-l-4 border-slate-800">
                 <p class="text-sm font-bold text-slate-500 uppercase tracking-wide mb-1">Weekly Snapshot</p>
-                <h1 class="text-3xl font-bold text-slate-900 mb-2">{{ REGIME_TITLE }}</h1>
+                <h1 class="text-3xl font-bold text-slate-900 mb-2">System Update</h1>
                 <p class="text-slate-600 leading-relaxed">
-                    Date: <span class="font-semibold text-slate-800">{{ DATE }}</span><br>
-                    {{ EXECUTIVE_SUMMARY }}
+                    Date: <span class="font-semibold text-slate-800">Feb 14, 2026</span><br>
+                    Prices refreshed.
                 </p>
             </div>
             <div class="col-span-1 bg-slate-100 rounded-xl p-6 flex flex-col justify-center items-center text-center border border-slate-200">
                 <div class="mb-3"><span class="inline-flex items-center justify-center h-12 w-12 rounded-full bg-emerald-100 text-emerald-600 text-2xl">🛡️</span></div>
                 <h2 class="text-lg font-bold text-slate-800">Portfolio Status</h2>
-                <div class="mt-2 px-4 py-1 bg-white border border-slate-300 rounded-full text-sm font-bold text-slate-700 shadow-sm">{{ PTF_STATUS }}</div>
+                <div class="mt-2 px-4 py-1 bg-white border border-slate-300 rounded-full text-sm font-bold text-slate-700 shadow-sm">Active</div>
             </div>
         </section>
 
@@ -140,7 +140,7 @@
                 <div class="lg:col-span-1 bg-slate-50 rounded-xl p-6 border border-slate-100 h-full flex flex-col">
                     <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">Asset Analysis</h3>
                     <div id="commentary-display" class="flex-grow flex flex-col justify-center transition-all duration-300">
-                        <div class="prose prose-sm text-slate-600 italic">"{{ CIO_MARKET_COMMENTARY }}"</div>
+                        <div class="prose prose-sm text-slate-600 italic">"Monitoring volatility."</div>
                     </div>
                 </div>
             </div>
@@ -151,7 +151,7 @@
             <div class="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
                 <div class="grid grid-cols-1 lg:grid-cols-3">
                     <div class="col-span-2 p-6 md:p-8">
-                        <h3 class="text-lg font-bold text-slate-800 mb-4">Execution Ticket: {{ DATE }}</h3>
+                        <h3 class="text-lg font-bold text-slate-800 mb-4">Execution Ticket: Feb 14, 2026</h3>
                         <div class="space-y-4" id="order-list"></div>
                         <div class="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between">
                             <div class="text-xs text-slate-400">Status: <span class="font-bold text-orange-500" id="execution-status">PENDING APPROVAL</span></div>
@@ -164,7 +164,7 @@
                     <div class="col-span-1 bg-slate-50 p-6 border-l border-slate-100 flex flex-col items-center justify-center">
                         <h4 class="text-sm font-bold text-slate-500 mb-4 text-center">Rebalance Visualization</h4>
                         <div class="chart-container-small"><canvas id="rebalanceChart"></canvas></div>
-                        <p class="text-xs text-slate-400 mt-4 text-center italic">"{{ ALGO_REASONING }}"</p>
+                        <p class="text-xs text-slate-400 mt-4 text-center italic">"Standard rebalance check."</p>
                     </div>
                 </div>
             </div>
@@ -187,11 +187,11 @@
                 { name: "VIX", value: "18.5", trend: "Normal ➡️", impact: "Safe", desc: "Volatility within range.", highlight: false }
             ],
             assets: [
-                { id: "EQCH", name: "Nasdaq 100", price: {{ NASDAQ_PRICE }}, change: {{ NASDAQ_CHANGE }}, color: '#ef4444' },
-                { id: "SP500S", name: "S&P 500", price: {{ SP500_PRICE }}, change: {{ SP500_CHANGE }}, color: '#f87171' },
-                { id: "IWVD", name: "World Value", price: {{ VALUE_PRICE }}, change: {{ VALUE_CHANGE }}, color: '#10b981' },
-                { id: "SMHV", name: "Semiconductors", price: {{ SEMI_PRICE }}, change: {{ SEMI_CHANGE }}, color: '#fbbf24' },
-                { id: "AUUCH", name: "Gold", price: {{ GOLD_PRICE }}, change: {{ GOLD_CHANGE }}, color: '#f59e0b' }
+                { id: "EQCH", name: "Nasdaq 100", price: 396.45, change: -1.94, color: '#ef4444' },
+                { id: "SP500S", name: "S&P 500", price: 6.16, change: -1.63, color: '#f87171' },
+                { id: "IWVD", name: "World Value", price: 0.0, change: 0.0, color: '#10b981' },
+                { id: "SMHV", name: "Semiconductors", price: 55.34, change: 1.0, color: '#fbbf24' },
+                { id: "AUUCH", name: "Gold", price: 0.0, change: 0.0, color: '#f59e0b' }
             ],
             orders: [
                 { action: "HOLD", assetId: "EQCH", asset: "Nasdaq 100", shares: 0, amt: "—", reason: "Allocation within limits." },
@@ -384,7 +384,7 @@
                 msg.classList.remove('hidden');
                 
                 // Demo Logic: Add a test transaction
-                ledger.push({ date: "{{ DATE }}", type: "HOLD", asset: "Portfolio Rebalance", qty: "-", price: "-", total: "Confirmed" });
+                ledger.push({ date: "Feb 14, 2026", type: "HOLD", asset: "Portfolio Rebalance", qty: "-", price: "-", total: "Confirmed" });
                 renderLedger();
             }, 800);
         }
