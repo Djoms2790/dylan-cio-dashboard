@@ -305,7 +305,7 @@
 
         // --- INJECTED DATA FROM PYTHON START ---
         // This variable is populated by the GitHub Action
-        const reportData = {{ REPORT_DATA_JSON }}; 
+        const reportData = {"meta": {"regime": "Data Sync"}, "algo": {"trend": "NEUTRAL"}, "macro": [], "performance": {"commentary": "No commentary."}, "breakers": [], "orders": [], "assets": [{"id": "EQCH", "name": "Invesco Nasdaq 100", "color": "#ef4444", "price": 396.45, "change_1w": -0.69, "change_ytd": -3.62, "change_1y": 8.54}, {"id": "SP500S", "name": "UBS S&P 500", "color": "#f87171", "price": 6.16, "change_1w": -0.64, "change_ytd": -1.14, "change_1y": 9.45}, {"id": "IWVL", "name": "iShares World Value", "color": "#10b981", "price": 66.58, "change_1w": 1.09, "change_ytd": 9.74, "change_1y": 46.04}, {"id": "SMHV", "name": "VanEck Semis", "color": "#fbbf24", "price": 55.34, "change_1w": 2.94, "change_ytd": 5.45, "change_1y": 42.83}, {"id": "AUCHAH", "name": "UBS Gold Hedged", "color": "#f59e0b", "price": 165.14, "change_1w": 1.49, "change_ytd": 11.87, "change_1y": 62.38}], "ledger": [{"date": "2026-01-01", "type": "DEPOSIT", "asset": "CASH", "qty": "-", "price": 1.0, "total": 100000}, {"date": "2026-01-15", "type": "BUY", "asset": "EQCH", "qty": 150, "price": 420.5, "total": 63075}, {"date": "2026-01-15", "type": "BUY", "asset": "SP500S", "qty": 80, "price": 680.0, "total": 54400}]}; 
         // --- INJECTED DATA END ---
 
         // USER STATE (Local Only - Resets on refresh because this is a static site)
