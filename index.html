@@ -32,7 +32,7 @@
                     <span class="text-xs text-slate-400 mono">GENEVA // AUTOMATED_V1</span>
                 </div>
             </div>
-            <div class="text-xs text-slate-400 hidden md:block">Last Sync: <span id="sync-time">{{ SYNC_TIME }}</span></div>
+            <div class="text-xs text-slate-400 hidden md:block">Last Sync: <span id="sync-time">2026-02-14 16:00</span></div>
         </div>
     </header>
 
@@ -40,10 +40,10 @@
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="col-span-1 md:col-span-2 bg-white rounded-xl p-8 shadow-sm border-l-4 border-slate-800">
                 <p class="text-sm font-bold text-slate-500 uppercase mb-1">Weekly Snapshot</p>
-                <h1 class="text-3xl font-bold text-slate-900 mb-2">{{ REGIME_TITLE }}</h1>
+                <h1 class="text-3xl font-bold text-slate-900 mb-2">Analysis temporarily unavailable due to AI sync issues.</h1>
                 <p class="text-slate-600 leading-relaxed">
-                    Date: <span class="font-semibold text-slate-800">{{ DATE }}</span><br>
-                    {{ EXECUTIVE_SUMMARY }}
+                    Date: <span class="font-semibold text-slate-800">Saturday, Feb 14, 2026</span><br>
+                    Analysis temporarily unavailable due to AI sync issues.
                 </p>
             </div>
             <div class="col-span-1 bg-slate-100 rounded-xl p-6 text-center border border-slate-200">
@@ -94,11 +94,11 @@
         // THIS DATA OBJECT IS WHAT THE PYTHON SCRIPT WILL OVERWRITE EVERY WEEK
         const reportData = {
             assets: [
-                { id: "EQCH", name: "Nasdaq 100", change: {{ NASDAQ_CHANGE }}, color: '#ef4444' },
-                { id: "SP500S", name: "S&P 500", change: {{ SP500_CHANGE }}, color: '#f87171' },
-                { id: "IWVL", name: "World Value", change: {{ VALUE_CHANGE }}, color: '#10b981' },
-                { id: "SMHV", name: "Semis", change: {{ SEMI_CHANGE }}, color: '#fbbf24' },
-                { id: "AUCHAH", name: "Gold", change: {{ GOLD_CHANGE }}, color: '#f59e0b' }
+                { id: "EQCH", name: "Nasdaq 100", change: 0.2131, color: '#ef4444' },
+                { id: "SP500S", name: "S&P 500", change: 0.0, color: '#f87171' },
+                { id: "IWVL", name: "World Value", change: 0.0, color: '#10b981' },
+                { id: "SMHV", name: "Semis", change: 0.0, color: '#fbbf24' },
+                { id: "AUCHAH", name: "Gold", change: 0.0, color: '#f59e0b' }
             ],
             macro: [
                 { name: "US CPI", value: "{{ CPI_VAL }}", trend: "{{ CPI_TREND }}", impact: "{{ CPI_IMPACT }}" },
