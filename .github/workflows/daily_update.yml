@@ -1,0 +1,35 @@
+name: Weekly Dylan CIO Update
+
+on:
+  schedule:
+    - cron: '0 8 * * 1' # Runs at 08:00 AM every Monday
+  workflow_dispatch: # Allows you to run it manually for testing
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Dependencies
+        run: pip install requests google-generativeai
+
+      - name: Run Update Script
+        env:
+          ALPHA_VANTAGE_KEY: ${{ secrets.ALPHA_VANTAGE_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python update_report.py
+
+      - name: Commit and Push Changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add index.html
+          git commit -m "Weekly CIO Report Update"
+          git push
