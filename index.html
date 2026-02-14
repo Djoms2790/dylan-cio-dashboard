@@ -292,7 +292,7 @@
 
         // --- INJECTED DATA FROM PYTHON START ---
         // This variable is populated by the GitHub Action
-        const reportData = {{ REPORT_DATA_JSON }}; 
+        const reportData = {"meta": {"regime": "System Update", "date": "Saturday, Feb 14, 2026", "summary": "Data sync only.", "status": "Neutral", "reasoning": "Hold."}, "algo": {"trend": "NEUTRAL"}, "macro": [{"name": "USD/CHF", "value": "0.77", "trend": "Live", "impact": "Neutral", "desc": "Real-time FX."}], "assets": [{"id": "EQCH", "name": "Invesco Nasdaq 100", "price": 396.45, "change": -0.69, "color": "#ef4444", "commentary": "No data."}, {"id": "SP500S", "name": "UBS S&P 500", "price": 6.16, "change": -0.64, "color": "#f87171", "commentary": "No data."}, {"id": "IWVD", "name": "iShares World Value", "price": 0.0, "change": 0.0, "color": "#10b981", "commentary": "No data."}, {"id": "SMHV", "name": "VanEck Semis", "price": 55.34, "change": 2.94, "color": "#fbbf24", "commentary": "No data."}, {"id": "AUUCH", "name": "UBS Gold", "price": 0.0, "change": 0.0, "color": "#f59e0b", "commentary": "No data."}], "performance": {"commentary": []}, "breakers": [], "orders": []}; 
         // --- INJECTED DATA END ---
 
         // USER STATE (Local Only - Resets on refresh because this is a static site)
