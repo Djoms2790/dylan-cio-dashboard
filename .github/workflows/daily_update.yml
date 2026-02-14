@@ -2,26 +2,34 @@ name: Weekly Dylan CIO Update
 
 on:
   schedule:
-    - cron: '0 8 * * 1' # Runs at 08:00 AM every Monday
-  workflow_dispatch: # Allows you to run it manually for testing
+    # Runs at 08:00 AM UTC every Monday
+    - cron: '0 8 * * 1'
+  # Allows you to manually trigger the update for testing
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    # Required to allow the script to push updates back to your repository
+    permissions:
+      contents: write
+      
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - name: Setup Python
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
 
       - name: Install Dependencies
-        run: pip install requests google-generativeai
+        run: |
+          pip install requests google-generativeai yfinance
 
-      - name: Run Update Script
+      - name: Run Dylan CIO Engine
         env:
+          # These must match the names in your GitHub Secrets exactly
           ALPHA_VANTAGE_KEY: ${{ secrets.ALPHA_VANTAGE_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python update_report.py
@@ -31,5 +39,5 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add index.html
-          git commit -m "Weekly CIO Report Update"
-          git push
+          # Only commit if the file actually changed to avoid errors
+          git diff --quiet && git diff --staged --quiet || (git commit -m "📊 Weekly CIO Sync: $(date +'%Y-%m-%d')" && git push)
